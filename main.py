@@ -1,5 +1,4 @@
-import os
-import random
+import os, random
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 import google.generativeai as genai
@@ -11,9 +10,8 @@ MY_CHAT_ID = int(os.environ["7953476285"])
 genai.configure(api_key=GEMINI_KEY)
 model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
-    system_instruction="""Tumi amar best friend. Banglish e kotha bolo (Bengali + English mix, Roman horf e). Jemon: ki koro vai, valo achi tumi kemon, aaj weather kharap na. Natural casual short reply dao, 1 theke 3 sentence max."""
+    system_instruction="Tumi amar best friend. Banglish e kotha bolo. Short casual reply dao 1-3 sentence."
 )
-
 chat_session = model.start_chat(history=[])
 
 async def handle(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
@@ -21,7 +19,7 @@ async def handle(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(reply)
 
 async def auto_msg(ctx: ContextTypes.DEFAULT_TYPE):
-    msgs = ["vai ki korcho?", "aaj kemon gelo?", "ektu bored lagche", "chai khailam :)", "tumi valo acho?"]
+    msgs = ["vai ki korcho?", "aaj kemon gelo?", "bored lagche", "chai khailam :)"]
     await ctx.bot.send_message(chat_id=MY_CHAT_ID, text=random.choice(msgs))
 
 def main():
